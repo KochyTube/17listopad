@@ -61,34 +61,51 @@ const HeroSection = () => {
         />
       ))}
 
-      {/* Levá polovina zatmavená a obsah */}
-      <div className="absolute top-0 left-0 w-1/2 h-screen bg-black bg-opacity-40 backdrop-blur-md z-10 flex flex-col justify-between px-4 text-center">
-  {/* Logo nahoře */}
-  <div className="mt-20">
-    <img
-      src="/logo.png"
-      alt="Logo"
-      className="w-auto max-w-[250px] sm:max-w-[500px] mx-auto"
-    />
-  </div>
+      {/* Obsah pro mobily */}
+      <div className="absolute inset-0 flex flex-col justify-between items-center text-center px-4 py-10 z-10 bg-black bg-opacity-40 backdrop-blur-md sm:hidden">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="w-auto max-w-[200px] mx-auto mb-8"
+        />
+        <h3 className="text-lg text-musician-light font-medium mb-6">
+          {carouselImages[currentSlide].caption}
+        </h3>
+        <a
+          href="#prihlaska"
+          className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
+        >
+          Program
+        </a>
+      </div>
 
-  {/* Podnadpis + tlačítko dole */}
-  <div className="mb-20">
-    <h3 className="text-base sm:text-xl md:text-2xl text-musician-light font-medium mb-6">
-      {carouselImages[currentSlide].caption}
-    </h3>
-    <a
-      href="#prihlaska"
-      className="px-6 sm:px-8 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
-    >
-      Program
-    </a>
-  </div>
-</div>
+      {/* Levá polovina (pouze pro větší obrazovky) */}
+      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black bg-opacity-40 backdrop-blur-md z-10 flex-col justify-between px-4 text-center">
+        {/* Logo nahoře */}
+        <div className="mt-20">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="w-auto max-w-[250px] sm:max-w-[500px] mx-auto"
+          />
+        </div>
 
+        {/* Podnadpis + tlačítko dole */}
+        <div className="mb-20">
+          <h3 className="text-base sm:text-xl md:text-2xl text-musician-light font-medium mb-6">
+            {carouselImages[currentSlide].caption}
+          </h3>
+          <a
+            href="#prihlaska"
+            className="px-6 sm:px-8 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
+          >
+            Program
+          </a>
+        </div>
+      </div>
 
-      {/* Pravá polovina (průhledná / pro obrázek) */}
-      <div className="absolute top-0 left-1/2 w-1/2 h-screen z-0"></div>
+      {/* Pravá polovina (jen na větších obrazovkách) */}
+      <div className="hidden sm:block absolute top-0 left-1/2 w-1/2 h-screen z-0"></div>
 
       {/* Slide indikátor + šipka dolů */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 space-y-4">
@@ -115,7 +132,7 @@ const HeroSection = () => {
         </a>
       </div>
 
-      {/* Šipky pro přepínání slidů na krajích */}
+      {/* Šipky pro přepínání slidů */}
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4 z-20 text-musician-light hover:text-musician-blue transition-all"
