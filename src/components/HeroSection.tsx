@@ -72,7 +72,7 @@ const HeroSection = () => {
           {carouselImages[currentSlide].caption}
         </h3>
         <a
-          href="#prihlaska"
+          href="#program"
           className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
         >
           Program
@@ -96,7 +96,7 @@ const HeroSection = () => {
             {carouselImages[currentSlide].caption}
           </h3>
           <a
-            href="#prihlaska"
+            href="#program"
             className="px-6 sm:px-8 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
           >
             Program
@@ -127,7 +127,7 @@ const HeroSection = () => {
         </div>
 
         {/* Šipka dolů */}
-        <a href="#next-section" className="animate-bounce text-musician-light">
+        <a href="#program" className="animate-bounce text-musician-light">
           <ChevronsDown size={28} />
         </a>
       </div>
