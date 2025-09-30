@@ -68,21 +68,23 @@ const HeroSection = () => {
   </div>
 
   {/* Obsah pro mobily */}
-  <div className="absolute inset-0 flex flex-col justify-between items-center text-center px-4 py-10 z-20 bg-black bg-opacity-40 backdrop-blur-md sm:hidden">
+  <div className="absolute inset-0 flex flex-col justify-between items-center text-center px-4 py-8 z-20 sm:hidden">
     <img
       src="/logo.png"
       alt="Logo"
-      className="w-auto max-w-[200px] mx-auto mb-8"
+      className="w-auto max-w-[200px] mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
     />
-    <h3 className="text-lg text-musician-light font-medium mb-6">
-      {carouselImages[currentSlide].caption}
-    </h3>
-    <a
-      href="#program"
-      className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all"
-    >
-      Program
-    </a>
+    <div className="flex flex-col items-center space-y-6">
+      <h3 className="text-lg text-musician-light font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+        {carouselImages[currentSlide].caption}
+      </h3>
+      <a
+        href="#program"
+        className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all shadow-lg"
+      >
+        Program
+      </a>
+    </div>
   </div>
 
   {/* Levá polovina (pouze pro větší obrazovky) */}

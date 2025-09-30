@@ -34,7 +34,7 @@ const Program = () => {
   return (
     <section
       id="program"
-      className="section-spacing bg-musician-blue relative w-full h-screen overflow-hidden"
+      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
     >
       {/* Random SVG pozadí */}
       <div className="absolute inset-0 z-0">
