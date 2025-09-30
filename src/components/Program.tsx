@@ -1,8 +1,8 @@
 const Program = () => {
     return (
-        <section id="program" className="section-padding bg-musician-blue">
+        <section id="program" className="section-padding bg-musician-dark">
             <div className="container mx-auto">
-                <h1 className="mb-2 text-center text-xl">Program</h1>
+                <h1 className="mb-2 text-musician-blue text-center text-xl">Program</h1>
             </div>
         </section>
     )
