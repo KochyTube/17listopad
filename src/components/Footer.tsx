@@ -12,7 +12,10 @@ const Footer = () => {
             © {new Date().getFullYear()} Kochy. Všechna práva vyhrazena.
           </p>
           <br />
-          <a className="text-musician-light/60 text-sm text-center hover:text-musician-green transition-colors duration-300" href="/#domu">
+          <a
+            className="text-musician-light/60 text-sm text-center hover:text-musician-green transition-colors duration-300"
+            href="/#domu"
+          >
             Domů
           </a>
         </div>

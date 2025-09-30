@@ -1,3 +1,5 @@
+import RandomBg from "./ui/RandomBg";
+
 const progs = [
   { day: "ct", time: "12:00", name: "Test", place: "Mír" },
   { day: "ct", time: "20:00", name: "Test2", place: "Portál" },
@@ -18,10 +20,8 @@ const dayNames = {
 };
 
 const Program = () => {
-  // seřadíme všechno podle času
   const sorted = [...progs].sort((a, b) => a.time.localeCompare(b.time));
 
-  // seskupíme podle dne a místa
   const grouped = sorted.reduce((acc, prog) => {
     if (!acc[prog.day]) acc[prog.day] = {};
     if (!acc[prog.day][prog.place]) acc[prog.day][prog.place] = [];
@@ -29,18 +29,26 @@ const Program = () => {
     return acc;
   }, {});
 
-  // pořadí dní
   const daysOrder = ["ct", "pa", "so", "ne"];
 
   return (
-    <section id="program" className="section-spacing bg-musician-blue">
-      <div className="container mx-auto px-4 md:px-6">
+    <section
+      id="program"
+      className="section-spacing bg-musician-blue relative w-full h-screen overflow-hidden"
+    >
+      {/* Random SVG pozadí */}
+      <div className="absolute inset-0 z-0">
+        <RandomBg  avoidRefs={[]}/>
+      </div>
+
+      {/* Obsah nad pozadím */}
+      <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">
             Program
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-5 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             {daysOrder.map((day) => (
               <div
                 key={day}
@@ -60,7 +68,7 @@ const Program = () => {
                         {grouped[day][place].map((prog, index) => (
                           <div
                             key={index}
-                            className="flex flex-raw gap-2 items-center"
+                            className="flex flex-row gap-2 items-center"
                           >
                             <p className="font-semibold">{prog.time}</p>
                             <p>{prog.name}</p>

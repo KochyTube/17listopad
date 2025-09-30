@@ -18,7 +18,7 @@ const Navbar = () => {
   }, []);
 //
   const navLinks = [
-    { name: "Domů", href: "/#home" }
+    { name: "Domů", href: "/#domu" }
   ];
 
   return (
