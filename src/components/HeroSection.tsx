@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, ChevronsDown } from "lucide-react";
 
 const carouselImages = [
-  { url: "/spolecna.jpg", caption: "Podnadpis1" },
+  { url: "/portal.jpg", caption: "Poetický večer na Portálu" },
   { url: "/zkouska.jpg", caption: "Podnadpis2" },
   { url: "/hry.jpg", caption: "Podnadpis3" },
 ];
@@ -80,7 +80,7 @@ const HeroSection = () => {
       </div>
 
       {/* Levá polovina (pouze pro větší obrazovky) */}
-      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black bg-opacity-40 backdrop-blur-md z-10 flex-col justify-between px-4 text-center">
+      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black/50 bg-opacity-80 backdrop-blur-sm z-10 flex-col justify-between px-4 text-center">
         {/* Logo nahoře */}
         <div className="mt-20">
           <img
