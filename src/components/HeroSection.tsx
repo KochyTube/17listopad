@@ -3,8 +3,8 @@ import { ChevronLeft, ChevronRight, ChevronsDown } from "lucide-react";
 
 const carouselImages = [
   { url: "/portal.jpg", caption: "Poetický večer na Portálu" },
-  { url: "/zkouska.jpg", caption: "Podnadpis2" },
-  { url: "/hry.jpg", caption: "Podnadpis3" },
+  { url: "/mir.jpg", caption: "Pařba na míru" },
+  { url: "/debata.JPG", caption: "Tématické debaty" },
 ];
 
 const HeroSection = () => {
