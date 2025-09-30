@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import Program from "@/components/Program"
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -9,6 +10,7 @@ const Index = () => {
     <div className="min-h-screen bg-dark overflow-x-hidden">
       <Navbar />
       <HeroSection />
+      <Program />
       <Footer />
     </div>
   );
