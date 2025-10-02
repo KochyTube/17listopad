@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { createClient, Entry, EntrySkeletonType } from "contentful";
 import RandomBg from "./ui/RandomBg";
 
+import Client from "@/client";
+
 interface ProgramFields {
   DateTime?: string;
   place?: string;
@@ -23,11 +25,6 @@ const dayNames: Record<string, string> = {
   ne: "Neděle",
 };
 
-const client = createClient({
-  space: "plorxngpia5j",
-  accessToken: "jqMijNAydr9z4oEwOTsZsyeJDWHp6-bsdVzLscKQLIk",
-});
-
 const Program = () => {
   const [progs, setProgs] = useState<Entry<ProgramSkeleton, undefined, string>[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +32,7 @@ const Program = () => {
   useEffect(() => {
     async function fetchProgs() {
       try {
-        const response = await client.getEntries<ProgramSkeleton>({
+        const response = await Client.getEntries<ProgramSkeleton>({
           content_type: "progam",
           order: ["fields.DateTime"] as any,
           limit: 100,

@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from 'contentful';
 import RandomBg from './ui/RandomBg';
 
-const client = createClient({
-  space: 'plorxngpia5j',
-  accessToken: 'jqMijNAydr9z4oEwOTsZsyeJDWHp6-bsdVzLscKQLIk',
-});
+import Client from "@/client";
 
 function AboutUs() {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
     async function fetchArticle() {
-      const entries = await client.getEntries({
+      const entries = await Client.getEntries({
         content_type: 'o-nas',
         limit: 1,
       });
