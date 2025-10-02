@@ -1,15 +1,19 @@
+import React, { useEffect, useState } from "react";
+import { createClient, Entry, EntrySkeletonType } from "contentful";
 import RandomBg from "./ui/RandomBg";
 
-const progs = [
-  { day: "ct", time: "12:00", name: "Test", place: "Mír" },
-  { day: "ct", time: "20:00", name: "Test2", place: "Portál" },
-  { day: "pa", time: "18:00", name: "Kapela A", place: "Mír" },
-  { day: "so", time: "16:00", name: "Kapela B", place: "Mír" },
-  { day: "ne", time: "14:00", name: "Kapela C", place: "Portál" },
-  { day: "so", time: "18:00", name: "Kapela D", place: "Hub123" },
-];
+interface ProgramFields {
+  DateTime?: string;
+  place?: string;
+  name?: string;
+}
 
-const dayNames = {
+interface ProgramSkeleton extends EntrySkeletonType {
+  contentTypeId: "progam";
+  fields: ProgramFields;
+}
+
+const dayNames: Record<string, string> = {
   po: "Pondělí",
   ut: "Úterý",
   st: "Středa",
@@ -19,68 +23,104 @@ const dayNames = {
   ne: "Neděle",
 };
 
-const Program = () => {
-  const sorted = [...progs].sort((a, b) => a.time.localeCompare(b.time));
+const client = createClient({
+  space: "plorxngpia5j",
+  accessToken: "jqMijNAydr9z4oEwOTsZsyeJDWHp6-bsdVzLscKQLIk",
+});
 
-  const grouped = sorted.reduce((acc, prog) => {
-    if (!acc[prog.day]) acc[prog.day] = {};
-    if (!acc[prog.day][prog.place]) acc[prog.day][prog.place] = [];
-    acc[prog.day][prog.place].push(prog);
-    return acc;
-  }, {});
+const Program = () => {
+  const [progs, setProgs] = useState<Entry<ProgramSkeleton, undefined, string>[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProgs() {
+      try {
+        const response = await client.getEntries<ProgramSkeleton>({
+          content_type: "progam",
+          order: ["fields.DateTime"] as any,
+          limit: 100,
+        });
+        setProgs(response.items);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProgs();
+  }, []);
+
+  const getDayShort = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    const daysShort = ["ne", "po", "ut", "st", "ct", "pa", "so"];
+    return daysShort[date.getDay()];
+  };
+
+  const grouped = progs.reduce<Record<string, Record<string, Entry<ProgramSkeleton, undefined, string>[]>>>(
+    (acc, entry) => {
+      const dateTime = entry.fields.DateTime;
+      if (!dateTime) return acc;
+      
+      const day = getDayShort(dateTime);
+      const place = entry.fields.place || "Neznámé místo";
+      if (!acc[day]) acc[day] = {};
+      if (!acc[day][place]) acc[day][place] = [];
+      acc[day][place].push(entry);
+      return acc;
+    },
+    {}
+  );
 
   const daysOrder = ["ct", "pa", "so", "ne"];
 
+  if (loading) return <p>Načítám program...</p>;
+
   return (
-    <section
-      id="program"
-      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
-    >
-      {/* Random SVG pozadí */}
+    <section id="program" className="section-spacing bg-musician-blue relative w-full overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <RandomBg  avoidRefs={[]}/>
+        <RandomBg avoidRefs={[]} />
       </div>
 
-      {/* Obsah nad pozadím */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">
-            Program
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">Program</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             {daysOrder.map((day) => (
-              <div
-                key={day}
-                className="rounded-2xl overflow-hidden bg-musician-light text-musician-dark p-4"
-              >
-                <h3 className="mt-4 text-center text-xl font-bold text-musician-dark">
-                  {dayNames[day]}
-                </h3>
+              <div key={day} className="rounded-2xl overflow-hidden bg-musician-light text-musician-dark p-4">
+                <h3 className="mt-4 text-center text-xl font-bold text-musician-dark">{dayNames[day]}</h3>
 
                 {grouped[day] ? (
                   Object.keys(grouped[day]).map((place) => (
                     <div key={place} className="mt-4">
-                      <p className="text-center text-sm text-gray-600 mb-2">
-                        {place}
-                      </p>
+                      <p className="text-center text-sm text-gray-600 mb-2">{place}</p>
                       <div className="grid grid-cols-2 gap-4">
-                        {grouped[day][place].map((prog, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-row gap-2 items-center"
-                          >
-                            <p className="font-semibold">{prog.time}</p>
-                            <p>{prog.name}</p>
-                          </div>
-                        ))}
+                        {grouped[day][place]
+                          .sort((a, b) => {
+                            const aDate: string = a.fields.DateTime || "";
+                            const bDate: string = b.fields.DateTime || "";
+                            return aDate.localeCompare(bDate);
+                          })
+                          .map((prog) => {
+                            const dateTime = prog.fields.DateTime;
+                            if (!dateTime) return null;
+                            
+                            const time = new Date(dateTime).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            });
+                            return (
+                              <div key={prog.sys.id} className="flex flex-row gap-2 items-center">
+                                <p className="font-semibold">{time}</p>
+                                <p>{prog.fields.name}</p>
+                              </div>
+                            );
+                          })}
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-sm text-gray-500 mt-4">
-                    Žádný program
-                  </p>
+                  <p className="text-center text-sm text-gray-500 mt-4">Žádný program</p>
                 )}
               </div>
             ))}
