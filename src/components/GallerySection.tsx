@@ -1,102 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Album, AssetLink, Asset } from '../types';
-import Client from '@/client';
-import RandomBg from './ui/RandomBg';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Client from "@/client";
+import RandomBg from "./ui/RandomBg"; // Assuming RandomBg is available
+import Navbar from "@/components/Navbar";
 
-const GallerySection: React.FC = () => {
-  const [albums, setAlbums] = useState<Album[]>([]);
+interface Gallery {
+  sys: { id: string };
+  fields: {
+    name?: string;
+    photos?: { fields: { file: { url: string }; title?: string } }[];
+  };
+}
+
+function GallerySection() {
+  const [galleries, setGalleries] = useState<Gallery[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchAlbums() {
+    const fetchGalleries = async () => {
       try {
-        console.log('Fetching albums from Contentful...');
-        const response = await Client.getEntries({ content_type: 'gallery', include: 2 });
-        console.log('Contentful response:', response);
-
-        // Resolve asset links to actual assets
-        const resolvedAlbums: Album[] = response.items.map((item: any) => {
-          const photos = (item.fields.photos || []).map((photoLink: AssetLink) => {
-            const asset = response.includes?.Asset?.find(
-              (a: Asset) => a.sys.id === photoLink.sys.id
-            ) || {
-              sys: photoLink.sys,
-              fields: { file: { url: 'https://via.placeholder.com/150' } },
-            };
-            return asset;
-          });
-          return {
-            sys: item.sys,
-            fields: {
-              name: item.fields.name || 'Unnamed Album',
-              photos,
-            },
-          };
-        });
-
-        setAlbums(resolvedAlbums);
-        setLoading(false);
-      } catch (error: any) {
-        console.error('Error fetching albums:', error.message, error);
-        setError('Nepodařilo se načíst alba. Zkuste to prosím znovu.');
+        const response = await Client.getEntries({ content_type: "gallery" });
+        setGalleries(response.items as Gallery[]);
+      } catch (error) {
+        console.error("Error fetching galleries:", error);
+      } finally {
         setLoading(false);
       }
-    }
-
-    fetchAlbums();
+    };
+    fetchGalleries();
   }, []);
 
   if (loading) {
-    return <p className="text-center text-musician-dark">Načítám...</p>;
-  }
-
-  if (error) {
-    return <p className="text-center text-red-600">{error}</p>;
-  }
-
-  if (albums.length === 0) {
-    return <p className="text-center text-musician-dark">Žádná alba nenalezena.</p>;
+    return (
+      <div className="container mx-auto py-12 text-center text-musician-dark">
+        Načítání...
+      </div>
+    );
   }
 
   return (
     <section
       id="gallery"
-      className="section-spacing bg-musician-light relative w-full overflow-hidden"
+      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
     >
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <RandomBg avoidRefs={[]} />
       </div>
+
+      {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-musician-blue mb-6 text-center tracking-tight">
-            Fotoalba
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {albums.map((album) => (
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-musician-light">
+            Galerie
+          </h1>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {galleries.map((gallery) => (
               <Link
-                key={album.sys.id}
-                to={`/album/${album.sys.id}`}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                key={gallery.sys.id}
+                to={`/gallery/${gallery.sys.id}`}
+                className="group rounded-2xl overflow-hidden bg-musician-light text-musician-dark"
               >
-                <div className="grid grid-cols-2 gap-2 p-4">
-                  {album.fields.photos.slice(0, 4).map((photo: Asset) => (
+                <div className="relative w-full h-64">
+                  {gallery.fields.photos?.[0]?.fields?.file?.url && (
                     <img
-                      key={photo.sys.id}
-                      src={photo.fields.file?.url || 'https://via.placeholder.com/150'}
-                      alt=""
-                      className="w-full h-24 object-cover rounded"
-                      onError={(e) => {
-                        console.error('Image failed to load:', photo.fields.file?.url);
-                        e.currentTarget.src = 'https://via.placeholder.com/150';
-                      }}
+                      src={`https:${gallery.fields.photos[0].fields.file.url}`}
+                      alt={gallery.fields.name || "Galerie"}
+                      className="object-cover w-full h-full group-hover:opacity-80 transition-opacity"
                     />
-                  ))}
+                  )}
+                  <h2 className="absolute bottom-4 left-4 text-xl font-semibold text-white bg-black bg-opacity-50 px-4 py-2 rounded">
+                    {gallery.fields.name || "Bez názvu"}
+                  </h2>
                 </div>
-                <h3 className="p-4 text-lg font-semibold text-musician-dark">
-                  {album.fields.name}
-                </h3>
               </Link>
             ))}
           </div>
@@ -104,6 +81,6 @@ const GallerySection: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default GallerySection;
