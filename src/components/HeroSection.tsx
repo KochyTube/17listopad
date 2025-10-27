@@ -68,7 +68,7 @@ const HeroSection = () => {
       </div>
 
       {/* Obsah pro mobily */}
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 py-8 z-20 space-y-4 sm:hidden">
+      <div className="absolute inset-0 flex flex-col justify-start items-center text-center px-4 pt-16 sm:hidden space-y-4 z-20">
         <img
           src="/logo.png"
           alt="Logo"
