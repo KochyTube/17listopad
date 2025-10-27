@@ -68,12 +68,17 @@ const HeroSection = () => {
       </div>
 
       {/* Obsah pro mobily */}
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 py-8 z-20 sm:hidden space-y-6">
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 py-8 z-20 space-y-4 sm:hidden">
         <img
           src="/logo.png"
           alt="Logo"
           className="w-auto max-w-[200px] mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
         />
+
+        {/* Podnadpis pro mobily */}
+        <h2 className="text-musician-blue text-2xl font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+          Uherské Hradiště
+        </h2>
 
         <h3 className="text-lg text-musician-light font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-xs">
           {carouselImages[currentSlide].caption}
