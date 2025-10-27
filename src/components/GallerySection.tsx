@@ -40,7 +40,7 @@ function GallerySection() {
 
   return (
     <section
-      id="gallery"
+      id="galerie"
       className="section-spacing bg-musician-blue relative w-full overflow-hidden"
     >
       {/* Background */}

@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Client from "@/client";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar2";
 import Footer from "@/components/Footer";
 
 interface Gallery {
@@ -41,7 +41,7 @@ function Gallery() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-12 text-center text-musician-dark">
+      <div className="flex items-center justify-center min-h-screen bg-musician-blue text-musician-light">
         Načítání...
       </div>
     );
@@ -49,7 +49,7 @@ function Gallery() {
 
   if (!gallery) {
     return (
-      <div className="container mx-auto py-12 text-center text-red-500">
+      <div className="flex items-center justify-center min-h-screen bg-musician-blue text-red-500">
         Galerie nenalezena
       </div>
     );
@@ -60,22 +60,21 @@ function Gallery() {
   })) || [];
 
   return (
-    <section
-      id="gallery-detail"
-      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
-    >
-        <Navbar />
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 md:px-6 mb-20">
+    // Hlavní layout: flex, min-h-screen
+    <div className="flex flex-col min-h-screen bg-musician-light">
+      <Navbar />
+
+      {/* Hlavní obsah – roste podle potřeby */}
+      <main className="mt-10 flex-1 container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-5xl mx-auto">
           <Link
             to="/"
-            className="absolute top-4 left-4 bg-musician-light text-musician-dark py-2 px-4 rounded-lg hover:bg-opacity-80 transition-colors duration-300"
+            className="inline-block mb-6 bg-musician-blue text-musician-light py-2 px-4 rounded-lg hover:bg-opacity-80 transition-colors duration-300"
           >
             Zpět
           </Link>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-musician-light">
+          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center tracking-tight text-musician-blue">
             {gallery.fields.name || "Galerie"}
           </h1>
 
@@ -97,26 +96,30 @@ function Gallery() {
               </div>
             ))}
           </div>
-
-          {isOpen && (
-            <Lightbox
-              open={isOpen}
-              close={() => setIsOpen(false)}
-              slides={photos}
-              index={photoIndex}
-              controller={{
-                closeOnBackdropClick: true,
-              }}
-              styles={{
-                container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
-                slide: { padding: "20px" },
-              }}
-            />
-          )}
         </div>
+      </main>
+
+      {/* Footer přilepený dole */}
+      // Footer přilepený dole
+      <div className="mt-auto">
+        <Footer />
       </div>
-      <Footer />
-    </section>
+
+
+      {/* Lightbox */}
+      {isOpen && (
+        <Lightbox
+          open={isOpen}
+          close={() => setIsOpen(false)}
+          slides={photos}
+          index={photoIndex}
+          controller={{ closeOnBackdropClick: true }}
+          styles={{
+            container: { backgroundColor: "rgba(0, 0, 0, 0.9)" },
+          }}
+        />
+      )}
+    </div>
   );
 }
 

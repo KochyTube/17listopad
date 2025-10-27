@@ -3,13 +3,13 @@ import { createClient } from 'contentful';
 import RandomBg from './ui/RandomBg';
 import Client from "@/client";
 
-function AboutUs() {
+function WhySection() {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
     async function fetchArticle() {
       const entries = await Client.getEntries({
-        content_type: 'o-nas',
+        content_type: 'proc',
         limit: 1,
       });
 
@@ -37,13 +37,13 @@ function AboutUs() {
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-musician-blue mb-6 text-center tracking-tight">
-            O nás
+            Proč to děláme
           </h2>
 
           {/* Poloprůhledné pozadí pod textem pro lepší čitelnost */}
           <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 md:p-8 shadow-lg">
             <p className="text-musician-dark text-lg leading-relaxed">
-              {article.onas}
+              {article.proc}
             </p>
           </div>
         </div>
@@ -52,4 +52,4 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;
+export default WhySection;

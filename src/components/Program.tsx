@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { createClient, Entry, EntrySkeletonType } from "contentful";
+import { Entry, EntrySkeletonType } from "contentful";
 import RandomBg from "./ui/RandomBg";
-
 import Client from "@/client";
+import { Clock, MapPin, Coins } from "lucide-react";
 
 interface ProgramFields {
   DateTime?: string;
   place?: string;
   name?: string;
+  popis?: string;
+  prize?: number;
 }
 
 interface ProgramSkeleton extends EntrySkeletonType {
@@ -15,19 +17,18 @@ interface ProgramSkeleton extends EntrySkeletonType {
   fields: ProgramFields;
 }
 
-const dayNames: Record<string, string> = {
-  po: "Pondělí",
-  ut: "Úterý",
-  st: "Středa",
-  ct: "Čtvrtek",
-  pa: "Pátek",
-  so: "Sobota",
-  ne: "Neděle",
-};
-
 const Program = () => {
   const [progs, setProgs] = useState<Entry<ProgramSkeleton, undefined, string>[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const dayNames: Record<string, string> = {
+    ct: "Čtvrtek",
+    pa: "Pátek",
+    so: "Sobota",
+    ne: "Neděle",
+  };
+
+  const daysOrder = ["ct", "pa", "so", "ne"];
 
   useEffect(() => {
     async function fetchProgs() {
@@ -53,22 +54,15 @@ const Program = () => {
     return daysShort[date.getDay()];
   };
 
-  const grouped = progs.reduce<Record<string, Record<string, Entry<ProgramSkeleton, undefined, string>[]>>>(
-    (acc, entry) => {
-      const dateTime = entry.fields.DateTime;
-      if (!dateTime) return acc;
-      
-      const day = getDayShort(dateTime);
-      const place = entry.fields.place || "Neznámé místo";
-      if (!acc[day]) acc[day] = {};
-      if (!acc[day][place]) acc[day][place] = [];
-      acc[day][place].push(entry);
-      return acc;
-    },
-    {}
-  );
-
-  const daysOrder = ["ct", "pa", "so", "ne"];
+  // Seskupení programů podle dne
+  const groupedPrograms: Record<string, Entry<ProgramSkeleton, undefined, string>[]> = {};
+  progs.forEach((prog) => {
+    const dateTime = prog.fields.DateTime;
+    if (!dateTime) return;
+    const day = getDayShort(dateTime);
+    if (!groupedPrograms[day]) groupedPrograms[day] = [];
+    groupedPrograms[day].push(prog);
+  });
 
   if (loading) return <p>Načítám program...</p>;
 
@@ -80,47 +74,77 @@ const Program = () => {
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">Program</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-white">
+            Program
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
-            {daysOrder.map((day) => (
-              <div key={day} className="rounded-2xl overflow-hidden bg-musician-light text-musician-dark p-4">
-                <h3 className="mt-4 text-center text-xl font-bold text-musician-dark">{dayNames[day]}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {daysOrder.map((day) => {
+              const dayProgs = groupedPrograms[day] || [];
 
-                {grouped[day] ? (
-                  Object.keys(grouped[day]).map((place) => (
-                    <div key={place} className="mt-4">
-                      <p className="text-center text-sm text-gray-600 mb-2">{place}</p>
-                      <div className="grid grid-cols-2 gap-4">
-                        {grouped[day][place]
-                          .sort((a, b) => {
-                            const aDate: string = a.fields.DateTime || "";
-                            const bDate: string = b.fields.DateTime || "";
-                            return aDate.localeCompare(bDate);
-                          })
-                          .map((prog) => {
-                            const dateTime = prog.fields.DateTime;
-                            if (!dateTime) return null;
-                            
-                            const time = new Date(dateTime).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            });
-                            return (
-                              <div key={prog.sys.id} className="flex flex-row gap-2 items-center">
-                                <p className="font-semibold">{time}</p>
-                                <p>{prog.fields.name}</p>
-                              </div>
-                            );
-                          })}
-                      </div>
+              return (
+                <div
+                  key={day}
+                  className="rounded-3xl overflow-visible bg-white/90 dark:bg-gray-900/80 shadow-lg p-6 transition-transform transform hover:scale-105"
+                >
+                  <h3 className="text-center text-2xl font-bold text-musician-dark mb-4">
+                    {dayNames[day]}
+                  </h3>
+
+                  {dayProgs.length > 0 ? (
+                    <div className="flex flex-col gap-6">
+                      {dayProgs.map((prog, index) => (
+                        <div key={index} className="border-b border-gray-300 pb-4 last:border-none">
+                          {/* Čas */}
+                          {prog.fields.DateTime && (
+                            <div className="flex items-center gap-2 text-gray-700">
+                              <Clock className="w-5 h-5 text-musician-blue" />
+                              <span>
+                                {new Date(prog.fields.DateTime).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Místo */}
+                          {prog.fields.place && (
+                            <div className="flex items-center gap-2 text-gray-700">
+                              <MapPin className="w-5 h-5 text-musician-blue" />
+                              <span>{prog.fields.place}</span>
+                            </div>
+                          )}
+
+                          {/* Cena */}
+                          {prog.fields.prize !== undefined && (
+                            <div className="flex items-center gap-2 text-gray-700">
+                              <Coins className="w-5 h-5 text-musician-blue" />
+                              <span>{prog.fields.prize} Kč</span>
+                            </div>
+                          )}
+
+                          {/* Název a popis */}
+                          <div className="mt-3 flex flex-col gap-2 text-musician-dark">
+                            <span className="block text-lg font-semibold">
+                              {prog.fields.name}
+                            </span>
+
+                            {prog.fields.popis && (
+                              <p className="text-sm text-gray-600 leading-snug whitespace-pre-line">
+                                {prog.fields.popis}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))
-                ) : (
-                  <p className="text-center text-sm text-gray-500 mt-4">Žádný program</p>
-                )}
-              </div>
-            ))}
+                  ) : (
+                    <p className="text-center text-gray-500 mt-4">Žádný program</p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
