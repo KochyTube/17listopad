@@ -35,10 +35,17 @@ const Program = () => {
       try {
         const response = await Client.getEntries<ProgramSkeleton>({
           content_type: "progam",
-          order: ["fields.DateTime"] as any,
           limit: 100,
         });
-        setProgs(response.items);
+
+        // Řazení podle DateTime
+        const sorted = response.items.sort((a, b) => {
+          const aTime = a.fields.DateTime ? new Date(a.fields.DateTime).getTime() : 0;
+          const bTime = b.fields.DateTime ? new Date(b.fields.DateTime).getTime() : 0;
+          return aTime - bTime;
+        });
+
+        setProgs(sorted);
       } catch (error) {
         console.error(error);
       } finally {
@@ -126,9 +133,7 @@ const Program = () => {
 
                           {/* Název a popis */}
                           <div className="mt-3 flex flex-col gap-2 text-musician-dark">
-                            <span className="block text-lg font-semibold">
-                              {prog.fields.name}
-                            </span>
+                            <span className="block text-lg font-semibold">{prog.fields.name}</span>
 
                             {prog.fields.popis && (
                               <p className="text-sm text-gray-600 leading-snug whitespace-pre-line">
