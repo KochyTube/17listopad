@@ -34,9 +34,7 @@ const HeroSection = () => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + carouselImages.length) % carouselImages.length
-    );
+    setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
     resetTimer();
   };
 
@@ -68,22 +66,21 @@ const HeroSection = () => {
         <RandomBgLight avoidRefs={[]} />
       </div>
 
-      {/* Obsah pro mobily */}
-      <div className="absolute inset-0 flex flex-col justify-start items-center text-center px-4 pt-16 sm:hidden space-y-4 z-20">
+      {/* MOBILE layout */}
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 sm:hidden z-20 bg-black/50 backdrop-blur-[2px]">
         <img
           src="/logo.png"
           alt="Logo"
-          className="w-auto max-w-[200px] mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+          className="w-40 mb-6 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
         />
 
-        {/* Podnadpis pro mobily */}
-        <h2 className="text-musician-blue text-2xl font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+        <h2 className="text-musician-blue text-2xl font-bold mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
           Uherské Hradiště
         </h2>
 
-        <h3 className="text-lg text-musician-light font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-xs">
+        <p className="text-musician-light text-base mb-6 max-w-xs leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
           {carouselImages[currentSlide].caption}
-        </h3>
+        </p>
 
         <a
           href="#program"
@@ -93,8 +90,8 @@ const HeroSection = () => {
         </a>
       </div>
 
-      {/* Levá polovina (desktop) */}
-      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black/50 bg-opacity-80 backdrop-blur-sm z-20 flex-col justify-between px-4 text-center">
+      {/* DESKTOP left side */}
+      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black/50 backdrop-blur-sm z-20 flex-col justify-between px-4 text-center">
         <div className="mt-20">
           <img
             src="/logo.png"
@@ -118,7 +115,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Pravá polovina (desktop) */}
+      {/* Right side (desktop) */}
       <div className="hidden sm:block absolute top-0 left-1/2 w-1/2 h-screen z-0"></div>
 
       {/* Slide indikátor + šipka dolů */}
@@ -143,7 +140,7 @@ const HeroSection = () => {
         </a>
       </div>
 
-      {/* Šipky pro přepínání slidů */}
+      {/* Slide arrows */}
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4 z-20 text-musician-light hover:text-musician-blue transition-all"
