@@ -141,7 +141,7 @@ const HeroSection = () => {
             />
           ))}
         </div>
-        <a href="#program" className="animate-bounce text-musician-light">
+        <a href="#o-nas" className="animate-bounce text-musician-light">
           <ChevronsDown size={28} />
         </a>
       </div>

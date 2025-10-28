@@ -37,7 +37,7 @@ function WhySection() {
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-musician-blue mb-6 text-center tracking-tight">
-            Proč to děláme
+            Akce k výročí 17. listopadu 1939 a 1989 v Uherském Hradišti
           </h2>
 
           {/* Poloprůhledné pozadí pod textem pro lepší čitelnost */}
