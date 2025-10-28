@@ -3,9 +3,10 @@ import { ChevronLeft, ChevronRight, ChevronsDown } from "lucide-react";
 import RandomBgLight from "./ui/RandomBg-Light";
 
 const carouselImages = [
-  { url: "/portal.jpg", caption: "Poetický večer na Portálu" },
-  { url: "/mir.jpg", caption: "Pařba na míru" },
-  { url: "/debata.JPG", caption: "Tématické debaty" },
+  { url: "/film.jpg", caption: "Projekce filmu Pachová stopa s debatou" },
+  { url: "/portal.jpg", caption: "Václav Havel: Audience" },
+  { url: "/skauting.jpg", caption: "Skauting a 17. listopad" },
+  { url: "/mir.jpg", caption: "17. listopad v klubu Mír" },
 ];
 
 const HeroSection = () => {

@@ -28,6 +28,13 @@ const Program = () => {
     ne: "Neděle",
   };
 
+  const dayDates: Record<string, string> = {
+    ct: "13. 11.",
+    pa: "14. 11.",
+    so: "15. 11.",
+    ne: "16. 11.",
+  };
+
   const daysOrder = ["ct", "pa", "so", "ne"];
 
   useEffect(() => {
@@ -38,7 +45,7 @@ const Program = () => {
           limit: 100,
         });
 
-        // Řazení podle DateTime
+        // Řazení podle času konání
         const sorted = response.items.sort((a, b) => {
           const aTime = a.fields.DateTime ? new Date(a.fields.DateTime).getTime() : 0;
           const bTime = b.fields.DateTime ? new Date(b.fields.DateTime).getTime() : 0;
@@ -74,7 +81,10 @@ const Program = () => {
   if (loading) return <p>Načítám program...</p>;
 
   return (
-    <section id="program" className="section-spacing bg-musician-blue relative w-full overflow-hidden">
+    <section
+      id="program"
+      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
+    >
       <div className="absolute inset-0 z-0">
         <RandomBg avoidRefs={[]} />
       </div>
@@ -95,13 +105,19 @@ const Program = () => {
                   className="rounded-3xl overflow-visible bg-white/90 dark:bg-gray-900/80 shadow-lg p-6 transition-transform transform hover:scale-105"
                 >
                   <h3 className="text-center text-2xl font-bold text-musician-dark mb-4">
-                    {dayNames[day]}
+                    {dayNames[day]}{" "}
+                    <span className="text-musician-blue text-xl font-semibold">
+                      {dayDates[day]}
+                    </span>
                   </h3>
 
                   {dayProgs.length > 0 ? (
                     <div className="flex flex-col gap-6">
                       {dayProgs.map((prog, index) => (
-                        <div key={index} className="border-b border-gray-300 pb-4 last:border-none">
+                        <div
+                          key={index}
+                          className="border-b border-gray-300 pb-4 last:border-none"
+                        >
                           {/* Čas */}
                           {prog.fields.DateTime && (
                             <div className="flex items-center gap-2 text-gray-700">
@@ -133,7 +149,9 @@ const Program = () => {
 
                           {/* Název a popis */}
                           <div className="mt-3 flex flex-col gap-2 text-musician-dark">
-                            <span className="block text-lg font-semibold">{prog.fields.name}</span>
+                            <span className="block text-lg font-semibold">
+                              {prog.fields.name}
+                            </span>
 
                             {prog.fields.popis && (
                               <p className="text-sm text-gray-600 leading-snug whitespace-pre-line">
