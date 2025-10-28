@@ -34,7 +34,9 @@ const HeroSection = () => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + carouselImages.length) % carouselImages.length
+    );
     resetTimer();
   };
 
@@ -45,7 +47,7 @@ const HeroSection = () => {
 
   return (
     <section id="domu" className="relative h-screen w-screen overflow-hidden">
-      {/* Carousel Images */}
+      {/* Carousel obrázky */}
       {carouselImages.map((image, index) => (
         <div
           key={index}
@@ -61,37 +63,41 @@ const HeroSection = () => {
         />
       ))}
 
-      {/* Random SVG pozadí */}
+      {/* SVG efekt */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         <RandomBgLight avoidRefs={[]} />
       </div>
 
-      {/* MOBILE layout */}
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6 sm:hidden z-20 bg-black/50 backdrop-blur-[2px]">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="w-40 mb-6 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
-        />
+      {/* 📱 Mobilní layout */}
+      <div className="absolute inset-0 flex flex-col justify-between items-center text-center px-4 py-10 sm:hidden z-20">
+        {/* Horní polovina */}
+        <div className="flex flex-col items-center space-y-4 pt-10">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="w-auto max-w-[200px] mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+          />
+          <h2 className="text-musician-blue text-xl font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            Uherské Hradiště
+          </h2>
+        </div>
 
-        <h2 className="text-musician-blue text-2xl font-bold mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-          Uherské Hradiště
-        </h2>
-
-        <p className="text-musician-light text-base mb-6 max-w-xs leading-snug drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-          {carouselImages[currentSlide].caption}
-        </p>
-
-        <a
-          href="#program"
-          className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all shadow-lg"
-        >
-          Program
-        </a>
+        {/* Dolní polovina */}
+        <div className="flex flex-col items-center space-y-4 pb-10">
+          <h3 className="text-lg text-musician-light font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-xs">
+            {carouselImages[currentSlide].caption}
+          </h3>
+          <a
+            href="#program"
+            className="px-6 py-3 text-lg font-medium rounded-lg bg-musician-blue text-musician-light hover:bg-musician-blue-muted transition-all shadow-lg"
+          >
+            Program
+          </a>
+        </div>
       </div>
 
-      {/* DESKTOP left side */}
-      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black/50 backdrop-blur-sm z-20 flex-col justify-between px-4 text-center">
+      {/* 💻 Desktop layout */}
+      <div className="hidden sm:flex absolute top-0 left-0 w-1/2 h-screen bg-black/50 bg-opacity-80 backdrop-blur-sm z-20 flex-col justify-between px-4 text-center">
         <div className="mt-20">
           <img
             src="/logo.png"
@@ -115,10 +121,10 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Right side (desktop) */}
+      {/* Pravá polovina (desktop background) */}
       <div className="hidden sm:block absolute top-0 left-1/2 w-1/2 h-screen z-0"></div>
 
-      {/* Slide indikátor + šipka dolů */}
+      {/* Slide indikátory + šipka dolů */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 space-y-4">
         <div className="flex justify-center space-x-2 mb-2">
           {carouselImages.map((_, index) => (
@@ -140,7 +146,7 @@ const HeroSection = () => {
         </a>
       </div>
 
-      {/* Slide arrows */}
+      {/* Šipky pro přepínání slidů */}
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4 z-20 text-musician-light hover:text-musician-blue transition-all"
