@@ -1,5 +1,5 @@
 
-import { Facebook, Instagram, Mail, Phone, Music2 } from 'lucide-react';
+import { Facebook, Instagram, Mail } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,9 +17,9 @@ const Footer = () => {
               />
             <div className="flex space-x-4">
               <a 
-                href="https://www.facebook.com/profile.php?id=100079815278169" 
+                href="https://fb.me/e/6lxw2SNQ2" 
                 className="bg-white bg-opacity-10 hover:bg-opacity-20 transition-all p-2 rounded-full"
-                aria-label="Facebook"
+                aria-label="Facebook událost"
                 target="_blank"
                 rel="noopener noreferrer"
               >
