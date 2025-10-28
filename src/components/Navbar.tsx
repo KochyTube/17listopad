@@ -19,9 +19,10 @@ const Navbar = () => {
 //
   const navLinks = [
     { name: "Domů", href: "/#domu" },
+    { name: "O akci", href: "/#o-akci"},
     { name: "Program", href: "/#program" },
-    { name: "O nás", href: "/#o-nas"},
     { name: "Galerie", href: "/#galerie"},
+    { name: "O nás", href: "/#o-nas"},
   ];
 
   return (

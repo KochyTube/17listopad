@@ -25,7 +25,7 @@ function WhySection() {
 
   return (
     <section
-      id="o-nas"
+      id="o-akci"
       className="section-spacing bg-musician-light relative w-full overflow-hidden"
     >
       {/* Pozadí – RandomBg */}

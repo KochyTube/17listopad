@@ -111,7 +111,7 @@ const Program = () => {
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-white">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-musician-light">
             Program
           </h2>
 

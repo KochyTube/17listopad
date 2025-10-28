@@ -26,7 +26,7 @@ function AboutUs() {
   return (
     <section
       id="o-nas"
-      className="section-spacing bg-musician-light relative w-full overflow-hidden"
+      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
     >
       {/* Pozadí – RandomBg */}
       <div className="absolute inset-0 z-0">
@@ -36,7 +36,7 @@ function AboutUs() {
       {/* Obsah s poloprůhledným pozadím pro čitelnost */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-musician-blue mb-6 text-center tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-musician-light mb-6 text-center tracking-tight">
             O nás
           </h2>
 

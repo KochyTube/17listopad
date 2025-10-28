@@ -41,7 +41,7 @@ function GallerySection() {
   return (
     <section
       id="galerie"
-      className="section-spacing bg-musician-blue relative w-full overflow-hidden"
+      className="section-spacing bg-musician-light relative w-full overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
@@ -51,7 +51,7 @@ function GallerySection() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-musician-light">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight text-musician-blue">
             Galerie
           </h1>
 
