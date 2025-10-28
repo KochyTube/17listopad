@@ -83,7 +83,7 @@ const HeroSection = () => {
         </div>
 
         {/* Dolní polovina */}
-        <div className="flex flex-col items-center space-y-4 pb-10">
+        <div className="mb-8 flex flex-col items-center space-y-4 pb-10">
           <h3 className="text-lg text-musician-light font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-xs">
             {carouselImages[currentSlide].caption}
           </h3>
